@@ -1,0 +1,37 @@
+# === Python ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+
+# === Entornos virtuales ===
+venv/
+.env/
+.venv/
+
+# === Variables de entorno ===
+.env
+
+# === Logs ===
+*.log
+
+# === Archivos comprimidos ===
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+
+# === Archivos de sincronización ===
+rsync-exclude.txt
+
+# === Configuración de IDEs ===
+.vscode/
+.idea/
+*.iml
+
+# === Sistemas operativos ===
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
