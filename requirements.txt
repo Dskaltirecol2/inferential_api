@@ -8,3 +8,4 @@ pandas
 SQLAlchemy
 imbalanced-learn
 xgboost
+pymysql
