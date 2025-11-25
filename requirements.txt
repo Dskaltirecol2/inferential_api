@@ -7,3 +7,4 @@ python-dotenv
 pandas
 SQLAlchemy
 imbalanced-learn
+xgboost
