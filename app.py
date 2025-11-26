@@ -5,6 +5,8 @@ from fastapi import FastAPI, HTTPException, Body
 from loaders.monthlyperfomance_loader import MonthlyPerformanceLoader
 from loaders.lifeexpectancy_loader import LifeExpectancyLoader
 from loaders.tire_index_loader import TireIndexLoader
+from loaders.dronvision_loader import DronVisionLoader
+
 
 
 # Predict function for lifeexpectancy
@@ -13,7 +15,11 @@ from projects.lifeexpectancy.predict_llanta import predict_llanta
 # Settings (must contain S3 credentials + DB credentials)
 from core.settings import settings
 
+# Predict function for Tire_index
 from projects.tire_index.predict_tireindex import predict_tire_index
+
+# Predict function for dron_vision
+from projects.dronvision.predict_dronvision import predict_dronvision
 
 
 
@@ -23,7 +29,8 @@ from projects.tire_index.predict_tireindex import predict_tire_index
 projects_available = {
     "monthlyperformance": MonthlyPerformanceLoader,
     "lifeexpectancy": LifeExpectancyLoader,
-    "tire_index": TireIndexLoader
+    "tire_index": TireIndexLoader,
+    "dronvision": DronVisionLoader
 }
 
 # GLOBALS IN MEMORY
@@ -257,6 +264,36 @@ def predict_tireindex_endpoint(payload: Dict[str, Any]):
     if not result["success"]:
         raise HTTPException(status_code=400, detail=result)
 
+    return result
+
+
+# ===========================================================
+# 📌 PREDICT for Dronvision (Base64 + preprocessing + YOLOv11)
+# ===========================================================
+
+@app.post("/predict/dronvision")
+def predict_dronvision_endpoint(payload: dict):
+    loader = loaded_projects["dronvision"]
+
+    db_settings = {
+        "host": settings.DB_HOST,
+        "port": settings.DB_PORT,
+        "user": settings.DB_USER_DRON,
+        "password": settings.DB_PASSWORD_DRON,
+        "database": settings.DB_NAME,
+    }
+
+    ftp_config = {
+        "host": settings.FTP_HOST,
+        "user": settings.FTP_USER,
+        "password": settings.FTP_PASSWORD,
+        "port": settings.FTP_PORT
+    }
+
+    if not loader.model_path:
+        raise HTTPException(500, "Modelo YOLO no cargado.")
+
+    result = predict_dronvision(payload, loader, db_settings, ftp_config)
     return result
 
 # ---------------------------------------------

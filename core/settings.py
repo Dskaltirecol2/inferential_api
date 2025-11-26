@@ -21,4 +21,17 @@ class Settings:
 
     BASE_PREFIX = "machinelearningprojects"
 
+    #Dron
+    DB_USER_DRON= os.getenv("DB_USER_DRON")
+    DB_PASSWORD_DRON= os.getenv("DB_PS_DRON")
+
+    FTP_HOST= os.getenv("FTP_HOST")
+    FTP_USER= os.getenv("FTP_USER")
+    FTP_PASSWORD= os.getenv("FTP_PASSWORD")
+    FTP_PORT= os.getenv("FTP_PORT")
+
+
+
+
+
 settings = Settings()
